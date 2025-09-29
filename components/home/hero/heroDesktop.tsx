@@ -1,28 +1,26 @@
-// "use client" is required for framer-motion and hooks in Next.js app dir
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { motion, useAnimation, Variants } from "framer-motion";
-import WhatsAppBooking from "./hero/whatsappButton";
+import { useAnimation, Variants } from "framer-motion";
+import WhatsAppBooking from "./whatsappButton";
+import { MotionDiv, MotionImg } from "@/components/lib/motion";
+import Star from "./stars";
+import NavBubble from "./navBubble";
+import FeatureChip from "./featureChip";
 
-type VoidFn = () => void;
 
 const SKY_VARIANTS: Variants = {
     night: { background: "linear-gradient(180deg,#071229 0%, #0b2340 60%, #082028 100%)" },
     day: { background: "linear-gradient(180deg,#8fd3ff 0%, #c7e9ff 50%, #eafaf8 100%)" }
 };
 
-const SUN_VARIANTS: Variants = {
-    hidden: { y: 80, opacity: 0, scale: 0.8 },
-    visible: { y: 0, opacity: 1, scale: 1 }
-};
 
 const STAR_VARIANTS: Variants = {
     visible: { opacity: 1 },
     hidden: { opacity: 0 }
 };
 
-export default function HeroSection(): JSX.Element {
+export default function HeroDesktop(): React.ReactElement {
     const [isNight, setIsNight] = useState(true);
 
     const skyControls = useAnimation();
@@ -57,10 +55,10 @@ export default function HeroSection(): JSX.Element {
     return (
         <section
             aria-label="HillNights hero"
-            className="relative w-full min-h-[88vh] overflow-hidden"
+            className="relative w-full min-h-screen overflow-hidden"
         >
             {/* Sky background */}
-            <motion.div
+            <MotionDiv
                 animate={skyControls}
                 initial="night"
                 variants={SKY_VARIANTS}
@@ -68,19 +66,26 @@ export default function HeroSection(): JSX.Element {
             />
 
             {/* Stars */}
-            <motion.div
+            <MotionDiv
                 initial="visible"
                 animate={starsControls}
                 variants={STAR_VARIANTS}
                 className="pointer-events-none absolute left-12 top-12 z-10 flex gap-2"
             >
-                <Star x={0} delay={0} />
-                <Star x={18} delay={0.4} />
-                <Star x={36} delay={0.9} />
-            </motion.div>
+                <div className="pointer-events-none absolute inset-0 z-10">
+                    {[...Array(50)].map((_, i) => (
+                        <Star
+                            key={i}
+                            x={Math.random() * 100} // percentage for X
+                            y={Math.random() * 100} // percentage for Y
+                            delay={Math.random() * 5}
+                        />
+                    ))}
+                </div>
+            </MotionDiv>
 
             {/* Left vertical menu */}
-            <nav className="absolute left-2 top-1/4 z-30 flex flex-col gap-4">
+            <nav className="fixed left-2 top-1/4 z-30 flex flex-col gap-4">
                 <NavBubble label="Discover" icon="🔎" onClick={() => { }} />
                 <NavBubble label="Experiences" icon="🎒" onClick={() => { }} />
                 <NavBubble label="Book Direct" icon="📩" onClick={() => { }} />
@@ -93,24 +98,21 @@ export default function HeroSection(): JSX.Element {
             </nav>
 
             {/* Promo chip */}
-            <motion.div
+            <MotionDiv
                 initial={{ opacity: 0, x: 40 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1.2 }}
                 className="absolute right-8 top-12 z-30 rounded-xl backdrop-blur-md border px-4 py-2 bg-white/10 border-white/8 text-white">
                 <div className="text-xs">Launch Offer</div>
                 <div className="text-sm font-semibold">Save up to 15% — Direct Bookings</div>
-            </motion.div>
+            </MotionDiv>
 
             {/* Main content */}
             <div className="relative z-20 mx-auto max-w-7xl px-6 py-12 flex items-center gap-8">
                 {/* Left column */}
                 <div className="w-full md:w-5/12">
                     <div className="mb-6">
-                        <div
-                            className={`text-sm font-bold uppercase tracking-wider ${isNight ? "text-white/70" : "text-black/70"
-                                }`}
-                        >
+                        <div className="text-lg font-extrabold uppercase tracking-wider text-white/70">
                             HillNights
                         </div>
                         <h1
@@ -127,7 +129,7 @@ export default function HeroSection(): JSX.Element {
                     </div>
 
                     {/* Booking card */}
-                    <motion.div
+                    <MotionDiv
                         initial={{ y: 8, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         transition={{ delay: 1.1 }}
@@ -180,7 +182,7 @@ export default function HeroSection(): JSX.Element {
                                 Explore
                             </button>
                         </div>
-                    </motion.div>
+                    </MotionDiv>
 
                     {/* Micro features */}
                     <div className="mt-6 flex gap-4 flex-wrap">
@@ -193,23 +195,23 @@ export default function HeroSection(): JSX.Element {
                 {/* Right column */}
                 <div className="hidden md:flex md:w-7/12 items-center justify-center relative">
                     {/* Floating cloud */}
-                    <motion.img
+                    <MotionImg
                         src="https://gallery.yopriceville.com/var/resizes/Free-Clipart-Pictures/Cloud-PNG/Realistic_Cloud_PNG_Transparent_Clip_Art_Image.png?m=1629830700"
                         alt="cloud"
-                        className="absolute left-[-6%] top-0 w-80 opacity-95 z-50"
+                        className={`absolute left-[-6%] top-0 w-80 ${isNight ? "opacity-30" : "opacity-95"} z-50`}
                         style={{ pointerEvents: "none" }}
                         animate={{ x: [-100, 20, -100] }}
                         transition={{ duration: 20, repeat: Infinity, ease: "linear", delay: 0.5 }}
                     />
 
                     {/* Resort card with smooth cross-fade images */}
-                    <motion.div
+                    <MotionDiv
                         initial="hidden"
                         animate="visible"
                         className="relative w-[680px] max-w-full rounded-3xl overflow-hidden shadow-2xl ring-1 ring-black/25"
                     >
                         {/* Overlay gradient */}
-                        <motion.div
+                        <MotionDiv
                             className="absolute inset-0 z-20 pointer-events-none"
                             initial={{ opacity: isNight ? 0.6 : 0.2 }}
                             animate={{
@@ -224,7 +226,7 @@ export default function HeroSection(): JSX.Element {
                         />
 
                         {/* Day image */}
-                        <motion.img
+                        <MotionImg
                             src="https://png.pngtree.com/png-clipart/20240921/original/pngtree-tropical-hotel-accurate-png-image_16062852.png"
                             alt="HillNights resort day"
                             className="block w-full h-[430px] object-cover absolute inset-0"
@@ -234,7 +236,7 @@ export default function HeroSection(): JSX.Element {
                         />
 
                         {/* Night image */}
-                        <motion.img
+                        <MotionImg
                             src="https://i.insider.com/5c3e552710f0d00a9430668b?width=700"
                             alt="HillNights resort night"
                             className="block w-full h-[430px] object-cover absolute inset-0"
@@ -258,72 +260,12 @@ export default function HeroSection(): JSX.Element {
                                 <div className="text-sm font-semibold">Plantation Stay • 2 nights</div>
                             </div>
                         </div>
-                    </motion.div>
+                    </MotionDiv>
                 </div>
 
             </div>
 
             <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black/30 to-transparent pointer-events-none" />
         </section>
-    );
-}
-
-/* ---------------- helper components ---------------- */
-
-function NavBubble({ label, icon, onClick }: { label: string; icon: React.ReactNode; onClick: VoidFn }) {
-    return (
-        <motion.button
-            whileHover="hover"
-            initial="initial"
-            variants={{
-                initial: { x: 0, width: "3.5rem" },
-                hover: { x: 0, width: "11rem" },
-            }}
-            transition={{ type: "spring", stiffness: 300, damping: 24 }}
-            onClick={onClick}
-            className="flex relative items-center overflow-hidden rounded-full hover:bg-black/10 backdrop-blur-sm border hover:border-black/20 px-2 py-2 text-sm text-white shadow group"
-            type="button"
-        >
-            <div className="flex-shrink-0 w-9 h-9 rounded-full bg-black/20 flex items-center justify-center">
-                {icon}
-            </div>
-            <motion.div
-                variants={{
-                    initial: { opacity: 0, x: -10 },
-                    hover: { opacity: 1, x: 0 },
-                }}
-                transition={{ duration: 0.3 }}
-                className="ml-3 flex flex-col text-left whitespace-nowrap"
-            >
-                <span className="text-xs font-medium">{label}</span>
-                <span className="text-[10px] text-white/70">Explore</span>
-            </motion.div>
-        </motion.button>
-    );
-}
-
-function FeatureChip({ label, desc, isNight }: { label: string; desc: string; isNight: boolean }) {
-    return (
-        <div
-            className={`rounded-xl px-3 py-2 text-sm border ${isNight
-                ? "bg-white/5 border-white/40 text-white/70"
-                : "bg-black/5 border-black/20 text-black/70"
-                }`}
-        >
-            <div className="font-semibold">{label}</div>
-            <div className="text-xs">{desc}</div>
-        </div>
-    );
-}
-
-function Star({ x, delay }: { x?: number; delay?: number }) {
-    return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: [0, 1, 0.6, 0], y: [0, -3, 0], scale: [0.6, 1.1, 0.9] }}
-            transition={{ delay: delay ?? 0, duration: 2.4, repeat: Infinity }}
-            style={{ transform: `translateX(${x ?? 0}px)` }}
-            className="w-1.5 h-1.5 rounded-full bg-white/30"
-        />
     );
 }
