@@ -6,7 +6,7 @@ import { FaWhatsapp } from "react-icons/fa";
 
 export default function WhatsAppBooking({ isNight = true }: { isNight?: boolean }) {
     const handleClick = () => {
-        const text = "Hi, I'm interested in booking a weekend stay.";
+        const text = "Thanks for visiting my web. It's a demo. will be added real data later ☺";
         window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
     };
 

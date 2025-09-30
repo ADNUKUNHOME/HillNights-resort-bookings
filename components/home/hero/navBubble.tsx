@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from "react";
@@ -17,7 +16,6 @@ export default function NavBubble({
     onClick: VoidFn;
     alwaysShowLabel?: boolean;
 }) {
-    // mobile-friendly: if alwaysShowLabel is true, don't rely on hover
     const buttonVariants = alwaysShowLabel
         ? { initial: { width: "11rem" }, hover: { width: "11rem" } }
         : { initial: { width: "3.5rem" }, hover: { width: "11rem" } };
@@ -36,12 +34,10 @@ export default function NavBubble({
             className="flex items-center rounded-full hover:bg-black/10 backdrop-blur-sm border hover:border-black/20 py-2 pr-4 pl-2 text-sm text-white shadow group"
             type="button"
         >
-            {/* Icon circle */}
             <div className="flex-shrink-0 w-9 h-9 rounded-full bg-black/20 flex items-center justify-center">
                 {icon}
             </div>
 
-            {/* Label text */}
             <MotionDiv
                 variants={labelVariants}
                 transition={{ duration: 0.25 }}
@@ -52,6 +48,5 @@ export default function NavBubble({
                 <span className="text-[10px] text-white/70">Explore</span>
             </MotionDiv>
         </MotionButton>
-
     );
 }

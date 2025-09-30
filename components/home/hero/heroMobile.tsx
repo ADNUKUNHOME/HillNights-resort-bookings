@@ -6,6 +6,7 @@ import { MotionDiv, MotionImg } from "@/components/lib/motion";
 import Star from "./stars";
 import NavBubble from "./navBubble";
 import WhatsAppBooking from "./whatsappButton";
+import { useNightMode } from "@/context/NightModeContext";
 
 const DAY_IMG = "https://png.pngtree.com/png-clipart/20240921/original/pngtree-tropical-hotel-accurate-png-image_16062852.png";
 const NIGHT_IMG = "https://i.insider.com/5c3e552710f0d00a9430668b?width=700";
@@ -16,7 +17,7 @@ const CONTAINER_VARIANTS: Variants = {
 };
 
 export default function HeroMobileScreen(): React.ReactElement {
-    const [isNight, setIsNight] = useState(true);
+    const { isNight, setIsNight } = useNightMode();
     const controls = useAnimation();
 
     useEffect(() => {

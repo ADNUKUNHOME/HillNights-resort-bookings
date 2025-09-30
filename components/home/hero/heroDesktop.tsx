@@ -1,27 +1,26 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useAnimation, Variants } from "framer-motion";
 import WhatsAppBooking from "./whatsappButton";
 import { MotionDiv, MotionImg } from "@/components/lib/motion";
 import Star from "./stars";
 import NavBubble from "./navBubble";
 import FeatureChip from "./featureChip";
-
+import { useNightMode } from "@/context/NightModeContext";
 
 const SKY_VARIANTS: Variants = {
     night: { background: "linear-gradient(180deg,#071229 0%, #0b2340 60%, #082028 100%)" },
-    day: { background: "linear-gradient(180deg,#8fd3ff 0%, #c7e9ff 50%, #eafaf8 100%)" }
+    day: { background: "linear-gradient(180deg,#8fd3ff 0%, #c7e9ff 50%, #eafaf8 100%)" },
 };
-
 
 const STAR_VARIANTS: Variants = {
     visible: { opacity: 1 },
-    hidden: { opacity: 0 }
+    hidden: { opacity: 0 },
 };
 
 export default function HeroDesktop(): React.ReactElement {
-    const [isNight, setIsNight] = useState(true);
+    const { isNight, setIsNight } = useNightMode();
 
     const skyControls = useAnimation();
     const sunControls = useAnimation();
@@ -32,7 +31,7 @@ export default function HeroDesktop(): React.ReactElement {
     useEffect(() => {
         const timer = setTimeout(() => setIsNight(false), 2500);
         return () => clearTimeout(timer);
-    }, []);
+    }, [setIsNight]);
 
     useEffect(() => {
         (async () => {
@@ -46,7 +45,7 @@ export default function HeroDesktop(): React.ReactElement {
                 await sunControls.start("visible");
                 cloudsControls.start({
                     x: [-30, 30, -30],
-                    transition: { repeat: Infinity, duration: 18, ease: "linear" }
+                    transition: { repeat: Infinity, duration: 18, ease: "linear" },
                 });
             }
         })();
@@ -76,8 +75,8 @@ export default function HeroDesktop(): React.ReactElement {
                     {[...Array(50)].map((_, i) => (
                         <Star
                             key={i}
-                            x={Math.random() * 100} // percentage for X
-                            y={Math.random() * 100} // percentage for Y
+                            x={Math.random() * 100}
+                            y={Math.random() * 100}
                             delay={Math.random() * 5}
                         />
                     ))}
@@ -102,7 +101,8 @@ export default function HeroDesktop(): React.ReactElement {
                 initial={{ opacity: 0, x: 40 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1.2 }}
-                className="absolute right-8 top-12 z-30 rounded-xl backdrop-blur-md border px-4 py-2 bg-white/10 border-white/8 text-white">
+                className="absolute right-8 top-12 z-30 rounded-xl backdrop-blur-md border px-4 py-2 bg-white/10 border-white/8 text-white"
+            >
                 <div className="text-xs">Launch Offer</div>
                 <div className="text-sm font-semibold">Save up to 15% — Direct Bookings</div>
             </MotionDiv>
