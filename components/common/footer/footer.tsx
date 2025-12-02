@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { MotionDiv, MotionButton } from "@/components/lib/motion";
 import { Facebook, Instagram, Mail, MapPin, Phone } from "lucide-react";
@@ -16,6 +16,10 @@ interface FooterProps {
     isNight: boolean;
 }
 
+const notificationSound = typeof Audio !== "undefined"
+    ? new Audio("/notificationEffect.wav")
+    : null;
+
 export default function ResortFooter({ isNight }: FooterProps) {
     const [formData, setFormData] = useState<ContactFormData>({
         name: "",
@@ -30,8 +34,26 @@ export default function ResortFooter({ isNight }: FooterProps) {
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
+    useEffect(() => {
+        if (!notificationSound) return;
+        notificationSound.volume = 0;
+        notificationSound.play().catch(() => { });
+        notificationSound.pause();
+        notificationSound.currentTime = 0;
+    }, []);
+
+    const playNotificationSound = () => {
+        if (!notificationSound) return;
+        notificationSound.currentTime = 0;
+        notificationSound.volume = 0.5;
+        notificationSound.play().catch(() => { });
+    };
+
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
+        playNotificationSound();
         toast("📩 Messaging flow coming soon!");
     };
 

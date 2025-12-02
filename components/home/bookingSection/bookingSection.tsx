@@ -1,9 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { MotionDiv, MotionButton } from "@/components/lib/motion";
 import { ToastContainer, toast } from 'react-toastify';
+
+const notificationSound = typeof Audio !== "undefined"
+    ? new Audio("/notificationEffect.wav")
+    : null;
 
 interface BookingFormData {
     name: string;
@@ -35,8 +39,26 @@ export default function BookingSection({ isNight }: BookingSectionProps) {
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
+    useEffect(() => {
+        if (!notificationSound) return;
+        notificationSound.volume = 0;
+        notificationSound.play().catch(() => { });
+        notificationSound.pause();
+        notificationSound.currentTime = 0;
+    }, []);
+
+    const playNotificationSound = () => {
+        if (!notificationSound) return;
+        notificationSound.currentTime = 0;
+        notificationSound.volume = 0.5;
+        notificationSound.play().catch(() => { });
+    };
+
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
+        playNotificationSound();
         toast("✨ Booking flow coming soon!");
     };
 
