@@ -5,7 +5,6 @@ import { useAnimation, Variants } from "framer-motion";
 import WhatsAppBooking from "./whatsappButton";
 import { MotionDiv, MotionImg } from "@/components/lib/motion";
 import Star from "./stars";
-import NavBubble from "./navBubble";
 import FeatureChip from "./featureChip";
 import { useNightMode } from "@/context/NightModeContext";
 
@@ -82,19 +81,6 @@ export default function HeroDesktop(): React.ReactElement {
                     ))}
                 </div>
             </MotionDiv>
-
-            {/* Left vertical menu */}
-            <nav className="fixed left-2 top-1/4 z-30 flex flex-col gap-4">
-                <NavBubble label="Discover" icon="🔎" onClick={() => { }} />
-                <NavBubble label="Experiences" icon="🎒" onClick={() => { }} />
-                <NavBubble label="Book Direct" icon="📩" onClick={() => { }} />
-                <NavBubble label="Local Hosts" icon="🏡" onClick={() => { }} />
-                <NavBubble
-                    label={isNight ? "Switch to Day" : "Switch to Night"}
-                    icon={isNight ? "🌙" : "☀️"}
-                    onClick={() => setIsNight(!isNight)}
-                />
-            </nav>
 
             {/* Promo chip */}
             <MotionDiv

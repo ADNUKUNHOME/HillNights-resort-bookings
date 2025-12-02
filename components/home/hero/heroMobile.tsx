@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Variants, useAnimation, motion } from "framer-motion";
 import { MotionDiv, MotionImg } from "@/components/lib/motion";
 import Star from "./stars";
-import NavBubble from "./navBubble";
 import WhatsAppBooking from "./whatsappButton";
 import { useNightMode } from "@/context/NightModeContext";
 
@@ -158,22 +157,6 @@ export default function HeroMobileScreen(): React.ReactElement {
                     </div>
                 </div>
             </MotionDiv>
-
-            <nav className="fixed bottom-4 left-0 right-0 z-30 px-4">
-                <div className="overflow-x-auto scrollbar-none bg-white/10 backdrop-blur rounded-full px-3 py-2 shadow-md border border-white/20">
-                    <div className="inline-flex items-center gap-3">
-                        <NavBubble label="Discover" icon={<span>🔎</span>} onClick={() => { }} alwaysShowLabel />
-                        <NavBubble label="Book" icon={<span>📩</span>} onClick={() => { }} alwaysShowLabel />
-                        <NavBubble label="Hosts" icon={<span>🏡</span>} onClick={() => { }} alwaysShowLabel />
-                        <NavBubble label={isNight ? "Night" : "Day"} icon={isNight ? <span>🌙</span> : <span>☀️</span>} onClick={() => setIsNight(!isNight)} alwaysShowLabel />
-                        <NavBubble label="Profile" icon={<span>👤</span>} onClick={() => { }} alwaysShowLabel />
-                        <NavBubble label="More" icon={<span>➕</span>} onClick={() => { }} alwaysShowLabel />
-                        <NavBubble label="Trips" icon={<span>🧳</span>} onClick={() => { }} alwaysShowLabel />
-                        <NavBubble label="Offers" icon={<span>🎉</span>} onClick={() => { }} alwaysShowLabel />
-                    </div>
-                </div>
-            </nav>
-
             <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black/30 to-transparent pointer-events-none z-10" />
         </section>
     );
